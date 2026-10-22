@@ -3,242 +3,221 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Urban Afro - Reserva tu turno en la barbería con estilo y confianza."
-    />
-    <title>Urban Afro | Reserva tu turno</title>
+    <title>Licorería & Estanco | Panel ROOT</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="container nav">
-        <div class="brand" aria-label="Logo Urban Afro">
-          <span class="brand-mark">UA</span>
-          <span class="brand-text">Urban Afro</span>
+    <div id="loginScreen" class="screen active">
+      <div class="auth-box">
+        <div class="brand-box">
+          <span class="brand-mark">LA</span>
+          <h1>Licorería & Estanco</h1>
         </div>
 
-        <nav class="nav-menu" aria-label="Menú principal">
-          <a href="#inicio">Inicio</a>
-          <a href="#servicios">Servicios</a>
-          <a href="#turnos">Turnos</a>
-          <a href="#opiniones">Opiniones</a>
-          <a href="#contacto">Contacto</a>
+        <p>Panel administrativo</p>
+
+        <form id="loginForm">
+          <label>
+            Usuario
+            <input id="username" type="text" placeholder="root" required />
+          </label>
+
+          <label>
+            Contraseña
+            <input id="password" type="password" placeholder="••••••" required />
+          </label>
+
+          <button type="submit">Ingresar</button>
+        </form>
+
+        <div class="demo-user">
+          <small>Demo</small>
+          <small>Usuario: root</small>
+          <small>Contraseña: 1234</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="appScreen" class="screen">
+      <aside class="sidebar">
+        <div class="brand">
+          <span>LA</span>
+          <h2>Licorería</h2>
+        </div>
+
+        <nav class="nav-menu">
+          <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+          <button class="nav-btn" data-section="products">Productos</button>
+          <button class="nav-btn" data-section="sales">Ventas</button>
+          <button class="nav-btn" data-section="estancos">Estancos</button>
+          <button id="logoutBtn" class="nav-btn danger">Cerrar sesión</button>
         </nav>
+      </aside>
 
-        <a class="btn btn-primary" href="#turnos">Reservar</a>
-      </div>
-    </header>
+      <main class="content">
+        <section id="dashboard" class="panel active">
+          <h2>Dashboard</h2>
 
-    <main>
-      <section class="hero" id="inicio">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">Barbería moderna</p>
-            <h1>Reserva tu próximo corte con estilo.</h1>
-            <p class="lead">
-              Cortes, afeitadas, grooming y cuidado personal para hombres que
-              quieren verse impecables y sentirse seguros cada día.
-            </p>
-
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="#turnos">Sacar turno</a>
-              <a class="btn btn-secondary" href="#servicios">Ver servicios</a>
+          <div class="stats">
+            <div class="stat-card">
+              <span>Total ventas</span>
+              <strong id="totalVentas">$0</strong>
             </div>
-
-            <ul class="stats" aria-label="Estadísticas de la barbería">
-              <li><strong>2.5k+</strong><span>clientes</span></li>
-              <li><strong>8 años</strong><span>experiencia</span></li>
-              <li><strong>4.9/5</strong><span>valoración</span></li>
-            </ul>
-          </div>
-
-          <div class="hero-panel">
-            <div class="booking-card" id="turnos">
-              <div class="panel-top">
-                <p class="mini-label">Reserva rápida</p>
-                <h2>Tu próximo turno</h2>
-              </div>
-
-              <form class="booking-form" id="bookingForm">
-                <label>
-                  Nombre
-                  <input type="text" name="nombre" placeholder="Tu nombre" required />
-                </label>
-
-                <label>
-                  Servicio
-                  <select name="servicio" id="servicio">
-                    <option value="Corte clásico">Corte clásico</option>
-                    <option value="Corte + barba">Corte + barba</option>
-                    <option value="Fade premium">Fade premium</option>
-                    <option value="Afeitada royal">Afeitada royal</option>
-                  </select>
-                </label>
-
-                <label>
-                  Fecha
-                  <input type="date" name="fecha" id="fecha" required />
-                </label>
-
-                <div class="time-group" aria-label="Horarios disponibles">
-                  <button type="button" class="time-slot selected" data-time="10:00">10:00</button>
-                  <button type="button" class="time-slot" data-time="11:30">11:30</button>
-                  <button type="button" class="time-slot" data-time="13:00">13:00</button>
-                  <button type="button" class="time-slot" data-time="16:00">16:00</button>
-                  <button type="button" class="time-slot" data-time="17:30">17:30</button>
-                  <button type="button" class="time-slot" data-time="19:00">19:00</button>
-                </div>
-
-                <div class="summary-row">
-                  <span>Total estimado</span>
-                  <strong id="precioServicio">$2.800</strong>
-                </div>
-
-                <button type="submit" class="btn btn-primary full-width">Confirmar turno</button>
-              </form>
+            <div class="stat-card">
+              <span>Productos</span>
+              <strong id="totalProductos">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Stock bajo</span>
+              <strong id="stockBajo">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Estancos</span>
+              <strong id="totalEstancos">0</strong>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section" id="servicios">
-        <div class="container">
-          <div class="section-heading center">
-            <p class="section-label">Servicios</p>
-            <h2>Lo que ofrecemos en Urban Afro</h2>
+        <section id="products" class="panel">
+          <h2>Productos / Licores</h2>
+
+          <form id="productForm" class="two-columns">
+            <input type="hidden" id="productId" />
+
+            <label>
+              Nombre
+              <input type="text" id="productName" placeholder="Ej: Vodka Premium" required />
+            </label>
+
+            <label>
+              Categoría
+              <select id="productCategory">
+                <option value="Vinos">Vinos</option>
+                <option value="Whisky">Whisky</option>
+                <option value="Vodka">Vodka</option>
+                <option value="Ron">Ron</option>
+                <option value="Cerveza">Cerveza</option>
+                <option value="Estanco">Estanco</option>
+              </select>
+            </label>
+
+            <label>
+              Precio
+              <input type="number" id="productPrice" min="0" step="0.01" required />
+            </label>
+
+            <label>
+              Stock
+              <input type="number" id="productStock" min="0" required />
+            </label>
+
+            <button type="submit" class="primary-btn full">Guardar producto</button>
+          </form>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody"></tbody>
+            </table>
           </div>
+        </section>
 
-          <div class="cards-grid">
-            <article class="info-card">
-              <div class="icon">✂</div>
-              <h3>Corte clásico</h3>
-              <p>Estilo impecable con precisión, limpieza y acabado profesional.</p>
-              <span class="price">$2.800</span>
-            </article>
+        <section id="sales" class="panel">
+          <h2>Ventas</h2>
 
-            <article class="info-card">
-              <div class="icon">🧔</div>
-              <h3>Corte + barba</h3>
-              <p>Look completo para una imagen más definida, moderna y cuidada.</p>
-              <span class="price">$3.600</span>
-            </article>
+          <form id="saleForm" class="two-columns">
+            <label>
+              Producto
+              <select id="saleProduct"></select>
+            </label>
 
-            <article class="info-card">
-              <div class="icon">🎯</div>
-              <h3>Fade premium</h3>
-              <p>Transiciones suaves y estilo urbano con atención al detalle.</p>
-              <span class="price">$4.200</span>
-            </article>
+            <label>
+              Cantidad
+              <input type="number" id="saleQty" min="1" value="1" required />
+            </label>
+
+            <label>
+              Tipo de venta
+              <select id="saleType">
+                <option value="Al Contado">Al Contado</option>
+                <option value="Cuenta Corriente">Cuenta Corriente</option>
+                <option value="Delivery">Delivery</option>
+              </select>
+            </label>
+
+            <button type="submit" class="primary-btn full">Registrar venta</button>
+          </form>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody"></tbody>
+            </table>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section alt-bg">
-        <div class="container split-section">
-          <div>
-            <p class="section-label">Nosotros</p>
-            <h2>Más que barba y corte, un estilo pensado para vos.</h2>
+        <section id="estancos" class="panel">
+          <h2>Estancos / Sucursales</h2>
+
+          <form id="estancoForm" class="two-columns">
+            <input type="hidden" id="estancoId" />
+
+            <label>
+              Nombre
+              <input type="text" id="estancoName" placeholder="Ej: Estanco Centro" required />
+            </label>
+
+            <label>
+              Dirección
+              <input type="text" id="estancoAddress" placeholder="Av. Principal 123" required />
+            </label>
+
+            <label>
+              Teléfono
+              <input type="text" id="estancoPhone" placeholder="555-001" />
+            </label>
+
+            <label>
+              Encargado
+              <input type="text" id="estancoManager" placeholder="Luis" />
+            </label>
+
+            <button type="submit" class="primary-btn full">Guardar estanco</button>
+          </form>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Dirección</th>
+                  <th>Teléfono</th>
+                  <th>Encargado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="estancoTableBody"></tbody>
+            </table>
           </div>
-          <div>
-            <p>
-              En Urban Afro combinamos técnica, estética y atención personalizada
-              para que cada cliente salga con una imagen que refleje su identidad.
-            </p>
-            <p>
-              Te ayudamos a definir tu look con un servicio moderno, limpio y con
-              resultados consistentes.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section process-section">
-        <div class="container">
-          <div class="section-heading center">
-            <p class="section-label">Proceso</p>
-            <h2>Cómo funciona</h2>
-          </div>
-
-          <div class="process-grid">
-            <div class="process-step">
-              <span>01</span>
-              <h3>Elegís tu servicio</h3>
-              <p>Selecciona el corte o grooming que mejor se adapte a tu estilo.</p>
-            </div>
-
-            <div class="process-step">
-              <span>02</span>
-              <h3>Reservás un horario</h3>
-              <p>Elige fecha y hora disponible en segundos desde nuestra web.</p>
-            </div>
-
-            <div class="process-step">
-              <span>03</span>
-              <h3>Te recibimos en la barbería</h3>
-              <p>Nosotros cuidamos el resto para que salgas impecable.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section alt-bg" id="opiniones">
-        <div class="container">
-          <div class="section-heading center">
-            <p class="section-label">Opiniones</p>
-            <h2>Lo que dicen nuestros clientes</h2>
-          </div>
-
-          <div class="testimonial-grid">
-            <blockquote class="testimonial">
-              “Siempre salgo con el corte que quería. Profesionalismo, atención y estilo.”
-              <footer>— Nico</footer>
-            </blockquote>
-            <blockquote class="testimonial">
-              “La reserva es súper fácil y el trabajo impecable. La mejor barbería del barrio.”
-              <footer>— Matías</footer>
-            </blockquote>
-            <blockquote class="testimonial">
-              “Me cambiaron la imagen y la forma en que me siento. Totalmente recomendado.”
-              <footer>— Julián</footer>
-            </blockquote>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer" id="contacto">
-      <div class="container footer-grid">
-        <div>
-          <div class="brand footer-brand">
-            <span class="brand-mark">UA</span>
-            <span class="brand-text">Urban Afro</span>
-          </div>
-          <p>Barbería para hombres que quieren verse bien, sentirse bien y dejar huella.</p>
-        </div>
-
-        <div>
-          <h3>Contacto</h3>
-          <ul>
-            <li>📍 Av. San Martín 245</li>
-            <li>📞 +54 11 4567-8901</li>
-            <li>✉ hello@urbanafro.com</li>
-          </ul>
-        </div>
-
-        <div>
-          <h3>Horario</h3>
-          <ul>
-            <li>Lun a Sáb: 10:00 - 20:00</li>
-            <li>Domingo: Cerrado</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>© <span id="year"></span> Urban Afro. Todos los derechos reservados.</p>
-      </div>
-    </footer>
+        </section>
+      </main>
+    </div>
 
     <script src="script.js"></script>
   </body>
