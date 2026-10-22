@@ -21,8 +21,12 @@ const initialEstancos = [
 ];
 
 function readStorage(key, fallback) {
-  const value = localStorage.getItem(key);
-  return value ? JSON.parse(value) : fallback;
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 function writeStorage(key, value) {
@@ -123,14 +127,14 @@ loginForm.addEventListener('submit', (event) => {
   const password = document.getElementById('password').value.trim();
 
   const users = readStorage(STORAGE_KEYS.users, []);
-  const user = users.find((item) => item.username === username && item.password === password);
+  const found = users.find((user) => user.username === username && user.password === password);
 
-  if (!user) {
+  if (!found) {
     alert('Usuario o contraseña incorrectos');
     return;
   }
 
-  setSession({ username: user.username, role: user.role });
+  setSession({ username: found.username, role: found.role });
   showScreen('app');
   renderNav('dashboard');
   renderDashboard();
@@ -148,7 +152,7 @@ function formatMoney(value) {
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
     currency: 'ARS',
-  }).format(value);
+  }).format(Number(value || 0));
 }
 
 function renderDashboard() {
@@ -157,7 +161,7 @@ function renderDashboard() {
   const estancos = readStorage(STORAGE_KEYS.estancos, []);
 
   const totalVentas = sales.reduce((sum, item) => sum + Number(item.total), 0);
-  const stockBajo = products.filter((product) => product.stock < 10).length;
+  const stockBajo = products.filter((p) => p.stock < 10).length;
 
   document.getElementById('totalVentas').textContent = formatMoney(totalVentas);
   document.getElementById('totalProductos').textContent = products.length;
@@ -168,7 +172,9 @@ function renderDashboard() {
 productForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
+  const products = readStorage(STORAGE_KEYS.products, []);
   const id = productIdInput.value ? Number(productIdInput.value) : Date.now();
+
   const product = {
     id,
     name: productNameInput.value.trim(),
@@ -177,8 +183,7 @@ productForm.addEventListener('submit', (event) => {
     stock: Number(productStockInput.value),
   };
 
-  const products = readStorage(STORAGE_KEYS.products, []);
-  const index = products.findIndex((item) => item.id === id);
+  const index = products.findIndex((p) => p.id === id);
 
   if (index >= 0) {
     products[index] = product;
@@ -216,7 +221,7 @@ function renderProducts() {
   productTableBody.querySelectorAll('[data-edit]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const products = readStorage(STORAGE_KEYS.products, []);
-      const product = products.find((item) => item.id === Number(btn.dataset.edit));
+      const product = products.find((p) => p.id === Number(btn.dataset.edit));
       if (!product) return;
 
       productIdInput.value = product.id;
@@ -231,7 +236,7 @@ function renderProducts() {
   productTableBody.querySelectorAll('[data-delete]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const products = readStorage(STORAGE_KEYS.products, []);
-      const filtered = products.filter((item) => item.id !== Number(btn.dataset.delete));
+      const filtered = products.filter((p) => p.id !== Number(btn.dataset.delete));
       writeStorage(STORAGE_KEYS.products, filtered);
       renderProducts();
       renderDashboard();
@@ -257,7 +262,7 @@ saleForm.addEventListener('submit', (event) => {
 
   const products = readStorage(STORAGE_KEYS.products, []);
   const productId = Number(saleProductSelect.value);
-  const product = products.find((item) => item.id === productId);
+  const product = products.find((p) => p.id === productId);
 
   if (!product) {
     alert('Selecciona un producto válido');
@@ -287,6 +292,11 @@ saleForm.addEventListener('submit', (event) => {
     date: new Date().toLocaleString(),
   });
 
+  const index = products.findIndex((p) => p.id === productId);
+  if (index >= 0) {
+    products[index] = product;
+  }
+
   writeStorage(STORAGE_KEYS.products, products);
   writeStorage(STORAGE_KEYS.sales, sales);
 
@@ -315,6 +325,7 @@ function renderSales() {
 estancoForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
+  const estancos = readStorage(STORAGE_KEYS.estancos, []);
   const estanco = {
     id: estancoIdInput.value ? Number(estancoIdInput.value) : Date.now(),
     name: estancoNameInput.value.trim(),
@@ -323,7 +334,6 @@ estancoForm.addEventListener('submit', (event) => {
     manager: estancoManagerInput.value.trim(),
   };
 
-  const estancos = readStorage(STORAGE_KEYS.estancos, []);
   const index = estancos.findIndex((item) => item.id === estanco.id);
 
   if (index >= 0) {
@@ -383,7 +393,7 @@ function renderEstancos() {
   });
 }
 
-const session = readStorage(STORAGE_KEYS.session, null);
+const session = getSession();
 if (session) {
   showScreen('app');
   renderNav('dashboard');
