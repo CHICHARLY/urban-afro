@@ -1,16 +1,226 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi primera página</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>¡Bienvenido a mi página!</h1>
-  <p>Esta es mi primera web publicada con GitHub Pages.</p>
-  <button id="boton">Haz clic aquí</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Urban Afro — estilo, confianza y presencia para cada personalidad."
+    />
+    <title>Urban Afro | Estilo con identidad</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand" aria-label="Urban Afro logo">
+          <span class="brand-mark">UA</span>
+          <span class="brand-text">Urban Afro</span>
+        </div>
 
-  <script src="script.js"></script>
-</body>
+        <nav class="nav-menu" aria-label="Menú principal">
+          <a href="#inicio">Inicio</a>
+          <a href="#nosotros">Nosotros</a>
+          <a href="#servicios">Servicios</a>
+          <a href="#galeria">Galería</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+
+        <a class="btn btn-primary" href="#contacto">Reservar cita</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Estilo que habla por ti</p>
+            <h1>Urban Afro</h1>
+            <p class="lead">
+              Transformamos cortes, color y estilo personal en una experiencia
+              moderna, auténtica y con identidad.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#servicios">Ver servicios</a>
+              <a class="btn btn-secondary" href="#galeria">Ver galería</a>
+            </div>
+            <ul class="stats" aria-label="Estadísticas principales">
+              <li><strong>+2.5k</strong><span>clientes</span></li>
+              <li><strong>8 años</strong><span>de experiencia</span></li>
+              <li><strong>4.9/5</strong><span>valoración</span></li>
+            </ul>
+          </div>
+
+          <div class="hero-visual" aria-label="Diseño de estilo visual">
+            <div class="portrait-card">
+              <div class="portrait-glow"></div>
+              <div class="portrait-shape"></div>
+              <div class="badge">Fresh look</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="nosotros">
+        <div class="container split-section">
+          <div>
+            <p class="section-label">Sobre nosotros</p>
+            <h2>Más que un corte, una identidad.</h2>
+          </div>
+          <div>
+            <p>
+              En Urban Afro combinamos técnica, creatividad y atención
+              personalizada para crear looks que realcen tu personalidad y te
+              hagan sentir seguro en cada paso.
+            </p>
+            <p>
+              Desde cortes modernos hasta tratamientos de color y cuidado, cada
+              servicio está pensado para resaltar tu estilo y tu presencia.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt-bg" id="servicios">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-label">Servicios</p>
+            <h2>Lo que inspiramos en cada visita</h2>
+          </div>
+
+          <div class="cards-grid">
+            <article class="info-card">
+              <div class="icon">✂</div>
+              <h3>Cortes modernos</h3>
+              <p>
+                Diseños personalizados para cada rostro, estilo de vida y nivel
+                de mantenimiento.
+              </p>
+            </article>
+
+            <article class="info-card">
+              <div class="icon">🎨</div>
+              <h3>Color & tonalidad</h3>
+              <p>
+                Acabados vibrantes y naturales que realzan tu look sin perder
+                elegancia.
+              </p>
+            </article>
+
+            <article class="info-card">
+              <div class="icon">💇</div>
+              <h3>Styling personal</h3>
+              <p>
+                Asesoría completa para lograr un estilo que se sienta auténtico
+                y poderoso.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section process-section">
+        <div class="container">
+          <div class="section-heading center">
+            <p class="section-label">Proceso</p>
+            <h2>Cómo trabajamos</h2>
+          </div>
+
+          <div class="process-grid">
+            <div class="process-step">
+              <span>01</span>
+              <h3>Consulta</h3>
+              <p>Te escuchamos y entendemos tu estilo, objetivos y rutina.</p>
+            </div>
+            <div class="process-step">
+              <span>02</span>
+              <h3>Diseño</h3>
+              <p>Definimos una propuesta acordé a tu imagen y personalidad.</p>
+            </div>
+            <div class="process-step">
+              <span>03</span>
+              <h3>Resultado</h3>
+              <p>Te entregamos un look que se siente actual, limpio y único.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt-bg" id="galeria">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-label">Galería</p>
+            <h2>Inspiración para tu próximo cambio</h2>
+          </div>
+
+          <div class="gallery-grid">
+            <div class="gallery-item item-one"><span>Texturizado</span></div>
+            <div class="gallery-item item-two"><span>Color</span></div>
+            <div class="gallery-item item-three"><span>Modern</span></div>
+            <div class="gallery-item item-four"><span>Elegance</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section testimonials-section">
+        <div class="container">
+          <div class="section-heading center">
+            <p class="section-label">Opiniones</p>
+            <h2>Lo que dicen nuestros clientes</h2>
+          </div>
+
+          <div class="testimonial-grid">
+            <blockquote class="testimonial">
+              “El cambio fue total. Me sentí escuchada y el resultado fue justo
+              lo que buscaba.”
+              <footer>— Camila</footer>
+            </blockquote>
+            <blockquote class="testimonial">
+              “Un ambiente moderno, profesional y con una atención increíble.”
+              <footer>— Daniel</footer>
+            </blockquote>
+            <blockquote class="testimonial">
+              “Me ayudaron a definir un estilo que refleja mi personalidad.”
+              <footer>— Andrea</footer>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="contacto">
+      <div class="container footer-grid">
+        <div>
+          <div class="brand footer-brand">
+            <span class="brand-mark">UA</span>
+            <span class="brand-text">Urban Afro</span>
+          </div>
+          <p>Estilo, actitud y presencia para cada momento.</p>
+        </div>
+
+        <div>
+          <h3>Contacto</h3>
+          <ul>
+            <li>📍 Calle Estilo 245</li>
+            <li>📞 +52 55 1234 5678</li>
+            <li>✉ hello@urbanafro.com</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Horario</h3>
+          <ul>
+            <li>Lun - Sáb: 10:00 - 19:00</li>
+            <li>Domingo: Cerrado</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Urban Afro. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>
