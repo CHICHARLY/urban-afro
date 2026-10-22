@@ -5,28 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Urban Afro — estilo, confianza y presencia para cada personalidad."
+      content="Urban Afro - Reserva tu turno en la barbería con estilo y confianza."
     />
-    <title>Urban Afro | Estilo con identidad</title>
+    <title>Urban Afro | Reserva tu turno</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container nav">
-        <div class="brand" aria-label="Urban Afro logo">
+        <div class="brand" aria-label="Logo Urban Afro">
           <span class="brand-mark">UA</span>
           <span class="brand-text">Urban Afro</span>
         </div>
 
         <nav class="nav-menu" aria-label="Menú principal">
           <a href="#inicio">Inicio</a>
-          <a href="#nosotros">Nosotros</a>
           <a href="#servicios">Servicios</a>
-          <a href="#galeria">Galería</a>
+          <a href="#turnos">Turnos</a>
+          <a href="#opiniones">Opiniones</a>
           <a href="#contacto">Contacto</a>
         </nav>
 
-        <a class="btn btn-primary" href="#contacto">Reservar cita</a>
+        <a class="btn btn-primary" href="#turnos">Reservar</a>
       </div>
     </header>
 
@@ -34,87 +34,121 @@
       <section class="hero" id="inicio">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow">Estilo que habla por ti</p>
-            <h1>Urban Afro</h1>
+            <p class="eyebrow">Barbería moderna</p>
+            <h1>Reserva tu próximo corte con estilo.</h1>
             <p class="lead">
-              Transformamos cortes, color y estilo personal en una experiencia
-              moderna, auténtica y con identidad.
+              Cortes, afeitadas, grooming y cuidado personal para hombres que
+              quieren verse impecables y sentirse seguros cada día.
             </p>
+
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#servicios">Ver servicios</a>
-              <a class="btn btn-secondary" href="#galeria">Ver galería</a>
+              <a class="btn btn-primary" href="#turnos">Sacar turno</a>
+              <a class="btn btn-secondary" href="#servicios">Ver servicios</a>
             </div>
-            <ul class="stats" aria-label="Estadísticas principales">
-              <li><strong>+2.5k</strong><span>clientes</span></li>
-              <li><strong>8 años</strong><span>de experiencia</span></li>
+
+            <ul class="stats" aria-label="Estadísticas de la barbería">
+              <li><strong>2.5k+</strong><span>clientes</span></li>
+              <li><strong>8 años</strong><span>experiencia</span></li>
               <li><strong>4.9/5</strong><span>valoración</span></li>
             </ul>
           </div>
 
-          <div class="hero-visual" aria-label="Diseño de estilo visual">
-            <div class="portrait-card">
-              <div class="portrait-glow"></div>
-              <div class="portrait-shape"></div>
-              <div class="badge">Fresh look</div>
+          <div class="hero-panel">
+            <div class="booking-card" id="turnos">
+              <div class="panel-top">
+                <p class="mini-label">Reserva rápida</p>
+                <h2>Tu próximo turno</h2>
+              </div>
+
+              <form class="booking-form" id="bookingForm">
+                <label>
+                  Nombre
+                  <input type="text" name="nombre" placeholder="Tu nombre" required />
+                </label>
+
+                <label>
+                  Servicio
+                  <select name="servicio" id="servicio">
+                    <option value="Corte clásico">Corte clásico</option>
+                    <option value="Corte + barba">Corte + barba</option>
+                    <option value="Fade premium">Fade premium</option>
+                    <option value="Afeitada royal">Afeitada royal</option>
+                  </select>
+                </label>
+
+                <label>
+                  Fecha
+                  <input type="date" name="fecha" id="fecha" required />
+                </label>
+
+                <div class="time-group" aria-label="Horarios disponibles">
+                  <button type="button" class="time-slot selected" data-time="10:00">10:00</button>
+                  <button type="button" class="time-slot" data-time="11:30">11:30</button>
+                  <button type="button" class="time-slot" data-time="13:00">13:00</button>
+                  <button type="button" class="time-slot" data-time="16:00">16:00</button>
+                  <button type="button" class="time-slot" data-time="17:30">17:30</button>
+                  <button type="button" class="time-slot" data-time="19:00">19:00</button>
+                </div>
+
+                <div class="summary-row">
+                  <span>Total estimado</span>
+                  <strong id="precioServicio">$2.800</strong>
+                </div>
+
+                <button type="submit" class="btn btn-primary full-width">Confirmar turno</button>
+              </form>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section" id="nosotros">
-        <div class="container split-section">
-          <div>
-            <p class="section-label">Sobre nosotros</p>
-            <h2>Más que un corte, una identidad.</h2>
-          </div>
-          <div>
-            <p>
-              En Urban Afro combinamos técnica, creatividad y atención
-              personalizada para crear looks que realcen tu personalidad y te
-              hagan sentir seguro en cada paso.
-            </p>
-            <p>
-              Desde cortes modernos hasta tratamientos de color y cuidado, cada
-              servicio está pensado para resaltar tu estilo y tu presencia.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section alt-bg" id="servicios">
+      <section class="section" id="servicios">
         <div class="container">
-          <div class="section-heading">
+          <div class="section-heading center">
             <p class="section-label">Servicios</p>
-            <h2>Lo que inspiramos en cada visita</h2>
+            <h2>Lo que ofrecemos en Urban Afro</h2>
           </div>
 
           <div class="cards-grid">
             <article class="info-card">
               <div class="icon">✂</div>
-              <h3>Cortes modernos</h3>
-              <p>
-                Diseños personalizados para cada rostro, estilo de vida y nivel
-                de mantenimiento.
-              </p>
+              <h3>Corte clásico</h3>
+              <p>Estilo impecable con precisión, limpieza y acabado profesional.</p>
+              <span class="price">$2.800</span>
             </article>
 
             <article class="info-card">
-              <div class="icon">🎨</div>
-              <h3>Color & tonalidad</h3>
-              <p>
-                Acabados vibrantes y naturales que realzan tu look sin perder
-                elegancia.
-              </p>
+              <div class="icon">🧔</div>
+              <h3>Corte + barba</h3>
+              <p>Look completo para una imagen más definida, moderna y cuidada.</p>
+              <span class="price">$3.600</span>
             </article>
 
             <article class="info-card">
-              <div class="icon">💇</div>
-              <h3>Styling personal</h3>
-              <p>
-                Asesoría completa para lograr un estilo que se sienta auténtico
-                y poderoso.
-              </p>
+              <div class="icon">🎯</div>
+              <h3>Fade premium</h3>
+              <p>Transiciones suaves y estilo urbano con atención al detalle.</p>
+              <span class="price">$4.200</span>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt-bg">
+        <div class="container split-section">
+          <div>
+            <p class="section-label">Nosotros</p>
+            <h2>Más que barba y corte, un estilo pensado para vos.</h2>
+          </div>
+          <div>
+            <p>
+              En Urban Afro combinamos técnica, estética y atención personalizada
+              para que cada cliente salga con una imagen que refleje su identidad.
+            </p>
+            <p>
+              Te ayudamos a definir tu look con un servicio moderno, limpio y con
+              resultados consistentes.
+            </p>
           </div>
         </div>
       </section>
@@ -123,46 +157,32 @@
         <div class="container">
           <div class="section-heading center">
             <p class="section-label">Proceso</p>
-            <h2>Cómo trabajamos</h2>
+            <h2>Cómo funciona</h2>
           </div>
 
           <div class="process-grid">
             <div class="process-step">
               <span>01</span>
-              <h3>Consulta</h3>
-              <p>Te escuchamos y entendemos tu estilo, objetivos y rutina.</p>
+              <h3>Elegís tu servicio</h3>
+              <p>Selecciona el corte o grooming que mejor se adapte a tu estilo.</p>
             </div>
+
             <div class="process-step">
               <span>02</span>
-              <h3>Diseño</h3>
-              <p>Definimos una propuesta acordé a tu imagen y personalidad.</p>
+              <h3>Reservás un horario</h3>
+              <p>Elige fecha y hora disponible en segundos desde nuestra web.</p>
             </div>
+
             <div class="process-step">
               <span>03</span>
-              <h3>Resultado</h3>
-              <p>Te entregamos un look que se siente actual, limpio y único.</p>
+              <h3>Te recibimos en la barbería</h3>
+              <p>Nosotros cuidamos el resto para que salgas impecable.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section alt-bg" id="galeria">
-        <div class="container">
-          <div class="section-heading">
-            <p class="section-label">Galería</p>
-            <h2>Inspiración para tu próximo cambio</h2>
-          </div>
-
-          <div class="gallery-grid">
-            <div class="gallery-item item-one"><span>Texturizado</span></div>
-            <div class="gallery-item item-two"><span>Color</span></div>
-            <div class="gallery-item item-three"><span>Modern</span></div>
-            <div class="gallery-item item-four"><span>Elegance</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section testimonials-section">
+      <section class="section alt-bg" id="opiniones">
         <div class="container">
           <div class="section-heading center">
             <p class="section-label">Opiniones</p>
@@ -171,17 +191,16 @@
 
           <div class="testimonial-grid">
             <blockquote class="testimonial">
-              “El cambio fue total. Me sentí escuchada y el resultado fue justo
-              lo que buscaba.”
-              <footer>— Camila</footer>
+              “Siempre salgo con el corte que quería. Profesionalismo, atención y estilo.”
+              <footer>— Nico</footer>
             </blockquote>
             <blockquote class="testimonial">
-              “Un ambiente moderno, profesional y con una atención increíble.”
-              <footer>— Daniel</footer>
+              “La reserva es súper fácil y el trabajo impecable. La mejor barbería del barrio.”
+              <footer>— Matías</footer>
             </blockquote>
             <blockquote class="testimonial">
-              “Me ayudaron a definir un estilo que refleja mi personalidad.”
-              <footer>— Andrea</footer>
+              “Me cambiaron la imagen y la forma en que me siento. Totalmente recomendado.”
+              <footer>— Julián</footer>
             </blockquote>
           </div>
         </div>
@@ -195,14 +214,14 @@
             <span class="brand-mark">UA</span>
             <span class="brand-text">Urban Afro</span>
           </div>
-          <p>Estilo, actitud y presencia para cada momento.</p>
+          <p>Barbería para hombres que quieren verse bien, sentirse bien y dejar huella.</p>
         </div>
 
         <div>
           <h3>Contacto</h3>
           <ul>
-            <li>📍 Calle Estilo 245</li>
-            <li>📞 +52 55 1234 5678</li>
+            <li>📍 Av. San Martín 245</li>
+            <li>📞 +54 11 4567-8901</li>
             <li>✉ hello@urbanafro.com</li>
           </ul>
         </div>
@@ -210,7 +229,7 @@
         <div>
           <h3>Horario</h3>
           <ul>
-            <li>Lun - Sáb: 10:00 - 19:00</li>
+            <li>Lun a Sáb: 10:00 - 20:00</li>
             <li>Domingo: Cerrado</li>
           </ul>
         </div>
