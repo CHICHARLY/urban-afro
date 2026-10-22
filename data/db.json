@@ -1,0 +1,259 @@
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const DATA_DIR = path.join(__dirname, 'data');
+const DATA_FILE = path.join(DATA_DIR, 'db.json');
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+function ensureDataFile() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+
+  if (!fs.existsSync(DATA_FILE)) {
+    const initialData = {
+      users: [
+        {
+          id: 1,
+          username: 'root',
+          passwordHash: bcrypt.hashSync('1234', 10),
+          role: 'root',
+        },
+      ],
+      products: [
+        { id: 1, name: 'Vodka Premium', category: 'Vodka', price: 4200, stock: 18 },
+        { id: 2, name: 'Whisky Escocés', category: 'Whisky', price: 6800, stock: 12 },
+        { id: 3, name: 'Vino Tinto', category: 'Vinos', price: 3200, stock: 20 },
+        { id: 4, name: 'Cerveza Artesanal', category: 'Cerveza', price: 1800, stock: 42 },
+      ],
+      estancos: [
+        { id: 1, name: 'Estanco Centro', address: 'Av. Principal 123', phone: '555-001', manager: 'Luis' },
+        { id: 2, name: 'Estanco Norte', address: 'Calle Norte 45', phone: '555-002', manager: 'Ana' },
+      ],
+      sales: [],
+    };
+
+    fs.writeFileSync(DATA_FILE, JSON.stringify(initialData, null, 2));
+  }
+}
+
+function readDb() {
+  ensureDataFile();
+  return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+}
+
+function writeDb(data) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
+
+function makeId(items) {
+  return items.length ? Math.max(...items.map((item) => Number(item.id || 0))) + 1 : 1;
+}
+
+function authUser(username, password) {
+  const db = readDb();
+  const user = db.users.find((item) => item.username === username);
+  if (!user) return null;
+
+  if (bcrypt.compareSync(password, user.passwordHash)) {
+    return { id: user.id, username: user.username, role: user.role };
+  }
+
+  return null;
+}
+
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body || {};
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Usuario y contraseña requeridos' });
+  }
+
+  const user = authUser(username, password);
+  if (!user) {
+    return res.status(401).json({ message: 'Credenciales incorrectas' });
+  }
+
+  return res.json({ ok: true, user });
+});
+
+app.get('/api/summary', (req, res) => {
+  const db = readDb();
+  const totalVentas = db.sales.reduce((sum, sale) => sum + Number(sale.total || 0), 0);
+  const stockBajo = db.products.filter((product) => Number(product.stock) < 10).length;
+
+  res.json({
+    totalVentas,
+    totalProductos: db.products.length,
+    stockBajo,
+    totalEstancos: db.estancos.length,
+  });
+});
+
+app.get('/api/products', (req, res) => {
+  const db = readDb();
+  res.json(db.products);
+});
+
+app.post('/api/products', (req, res) => {
+  const db = readDb();
+  const { name, category, price, stock } = req.body || {};
+
+  if (!name || !category || price === undefined || stock === undefined) {
+    return res.status(400).json({ message: 'Faltan datos del producto' });
+  }
+
+  const product = {
+    id: makeId(db.products),
+    name: String(name).trim(),
+    category: String(category).trim(),
+    price: Number(price),
+    stock: Number(stock),
+  };
+
+  db.products.push(product);
+  writeDb(db);
+  res.status(201).json(product);
+});
+
+app.put('/api/products/:id', (req, res) => {
+  const db = readDb();
+  const id = Number(req.params.id);
+  const index = db.products.findIndex((item) => Number(item.id) === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: 'Producto no encontrado' });
+  }
+
+  const { name, category, price, stock } = req.body || {};
+  db.products[index] = {
+    ...db.products[index],
+    name: name ? String(name).trim() : db.products[index].name,
+    category: category ? String(category).trim() : db.products[index].category,
+    price: price !== undefined ? Number(price) : db.products[index].price,
+    stock: stock !== undefined ? Number(stock) : db.products[index].stock,
+  };
+
+  writeDb(db);
+  res.json(db.products[index]);
+});
+
+app.delete('/api/products/:id', (req, res) => {
+  const db = readDb();
+  const id = Number(req.params.id);
+  db.products = db.products.filter((item) => Number(item.id) !== id);
+  writeDb(db);
+  res.json({ ok: true });
+});
+
+app.get('/api/sales', (req, res) => {
+  const db = readDb();
+  res.json(db.sales);
+});
+
+app.post('/api/sales', (req, res) => {
+  const db = readDb();
+  const { productId, quantity, type } = req.body || {};
+
+  if (!productId || !quantity || !type) {
+    return res.status(400).json({ message: 'Faltan datos de la venta' });
+  }
+
+  const product = db.products.find((item) => Number(item.id) === Number(productId));
+  if (!product) {
+    return res.status(404).json({ message: 'Producto no encontrado' });
+  }
+
+  const qty = Number(quantity);
+  if (qty <= 0) {
+    return res.status(400).json({ message: 'La cantidad debe ser mayor a cero' });
+  }
+
+  if (product.stock < qty) {
+    return res.status(400).json({ message: 'No hay suficiente stock' });
+  }
+
+  product.stock -= qty;
+
+  const sale = {
+    id: makeId(db.sales),
+    product: product.name,
+    quantity: qty,
+    total: product.price * qty,
+    type,
+    date: new Date().toLocaleString('es-AR'),
+  };
+
+  db.sales.push(sale);
+  writeDb(db);
+  res.status(201).json(sale);
+});
+
+app.get('/api/estancos', (req, res) => {
+  const db = readDb();
+  res.json(db.estancos);
+});
+
+app.post('/api/estancos', (req, res) => {
+  const db = readDb();
+  const { name, address, phone, manager } = req.body || {};
+
+  if (!name || !address) {
+    return res.status(400).json({ message: 'Nombre y dirección requeridos' });
+  }
+
+  const estanco = {
+    id: makeId(db.estancos),
+    name: String(name).trim(),
+    address: String(address).trim(),
+    phone: String(phone || '').trim(),
+    manager: String(manager || '').trim(),
+  };
+
+  db.estancos.push(estanco);
+  writeDb(db);
+  res.status(201).json(estanco);
+});
+
+app.put('/api/estancos/:id', (req, res) => {
+  const db = readDb();
+  const id = Number(req.params.id);
+  const index = db.estancos.findIndex((item) => Number(item.id) === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: 'Estanco no encontrado' });
+  }
+
+  const { name, address, phone, manager } = req.body || {};
+  db.estancos[index] = {
+    ...db.estancos[index],
+    name: name ? String(name).trim() : db.estancos[index].name,
+    address: address ? String(address).trim() : db.estancos[index].address,
+    phone: phone !== undefined ? String(phone).trim() : db.estancos[index].phone,
+    manager: manager !== undefined ? String(manager).trim() : db.estancos[index].manager,
+  };
+
+  writeDb(db);
+  res.json(db.estancos[index]);
+});
+
+app.delete('/api/estancos/:id', (req, res) => {
+  const db = readDb();
+  const id = Number(req.params.id);
+  db.estancos = db.estancos.filter((item) => Number(item.id) !== id);
+  writeDb(db);
+  res.json({ ok: true });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor iniciado en http://localhost:${PORT}`);
+});

@@ -1,0 +1,14 @@
+{
+  "name": "licoreria-estanco-real",
+  "version": "1.0.0",
+  "description": "Sistema real para licorería y estanco con Express y JSON persistence",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2"
+  }
+}
