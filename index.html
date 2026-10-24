@@ -1,245 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Licorería & Estanco | Panel ROOT</title>
-    <link rel="icon" href="icon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div id="loginScreen" class="screen active">
-      <div class="auth-box">
-        <div class="brand-box">
-          <div class="brand-mark" aria-label="Logo de Licorería & Estanco">
-            <svg viewBox="0 0 512 512" aria-hidden="true" class="brand-icon">
-              <rect width="512" height="512" rx="110" fill="#f5a000"></rect>
-              <path d="M120 150 L72 96 L72 204 Z" fill="#fff7df"></path>
-              <path d="M392 150 L440 96 L440 204 Z" fill="#fff7df"></path>
-              <rect x="96" y="138" width="320" height="236" rx="118" fill="#fffaf3"></rect>
-              <rect x="150" y="158" width="34" height="196" rx="17" fill="#f5a000"></rect>
-              <rect x="238" y="158" width="34" height="196" rx="17" fill="#f5a000"></rect>
-              <rect x="326" y="158" width="34" height="196" rx="17" fill="#f5a000"></rect>
-            </svg>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f59e0b">
+<title>Mi Tienda de Mecatos</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><img class="logo-img" src="icon.svg" alt=""><div><strong id="brandName">Mi Tienda de Mecatos</strong><small>Tu dulcería, en línea</small></div></div>
+  <nav class="tabs" id="tabs">
+    <button data-view="caja" class="active">Caja</button>
+    <button data-view="productos">Productos</button>
+    <button data-view="fiado">Fiado</button>
+    <button data-view="reportes">Reportes</button>
+    <button data-view="ajustes">Ajustes</button>
+    <button id="notifBtn" class="notif-btn" title="Notificaciones" aria-label="Notificaciones">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span id="notifBadge" class="notif-badge hidden">0</span>
+    </button>
+  </nav>
+  <div class="status"><span id="netdot" class="dot"></span><span id="nettxt">En línea</span>
+    <button id="themeBtn" class="theme-btn" title="Cambiar a modo oscuro" aria-label="Cambiar tema">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M4.2 4.2l1.9 1.9M17.9 17.9l1.9 1.9M2 12h2.6M19.4 12H22M4.2 19.8l1.9-1.9M17.9 6.1l1.9-1.9"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button></div>
+</header>
+
+<main>
+  <!-- CAJA -->
+  <section id="view-caja" class="view active">
+    <div class="pos">
+      <div class="pos-left">
+        <div class="toolbar">
+          <input id="q" type="search" placeholder="Buscar por nombre o escanear código…" autocomplete="off" autofocus>
+          <select id="catFilter"></select>
+        </div>
+        <div id="grid" class="grid"></div>
+      </div>
+      <aside class="cart" id="cart">
+        <button type="button" id="cartHandle" class="cart-handle">
+          <span>Carrito · <span id="cartCount">0</span> producto(s)</span>
+          <span><strong id="cartMini">$0</strong> <span id="cartArrow">Abrir</span></span>
+        </button>
+        <h2>Venta actual</h2>
+        <div id="cartItems" class="cart-items"></div>
+        <div class="cart-foot">
+          <div class="total-row"><span>Total</span><strong id="cartTotal">$0</strong></div>
+          <div class="pay-row">
+            <select id="payMethod">
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia</option>
+              <option value="fiado">Fiado</option>
+            </select>
+            <input id="cashIn" type="number" inputmode="numeric" min="0" placeholder="Recibido">
           </div>
-          <h1>Licorería & Estanco</h1>
+          <div id="fiadoRow" class="pay-row hidden">
+            <input id="fiadoName" list="clientesList" placeholder="Nombre del cliente">
+            <datalist id="clientesList"></datalist>
+          </div>
+          <div class="change-row"><span id="changeLbl">Cambio</span><strong id="changeVal">$0</strong></div>
+          <div class="btn-row">
+            <button id="clearCart" class="btn ghost">Vaciar</button>
+            <button id="payBtn" class="btn primary">Cobrar</button>
+          </div>
         </div>
+      </aside>
+    </div>
+  </section>
 
-        <p>Panel administrativo</p>
+  <!-- PRODUCTOS -->
+  <section id="view-productos" class="view">
+    <div class="toolbar">
+      <input id="pq" type="search" placeholder="Buscar producto…">
+      <button id="catMgr" class="btn">Categorías</button>
+      <button id="newProd" class="btn primary">+ Nuevo producto</button>
+    </div>
+    <div class="table-wrap">
+      <table id="prodTable">
+        <thead><tr><th>Producto</th><th>Categoría</th><th>Código</th><th class="num">Precio</th><th class="num">Stock</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
 
-        <form id="loginForm">
-          <label>
-            Usuario
-            <input id="username" type="text" placeholder="root" required />
-          </label>
+  <!-- FIADO -->
+  <section id="view-fiado" class="view">
+    <div id="fiadoList"></div>
+  </section>
 
-          <label>
-            Contraseña
-            <input id="password" type="password" placeholder="••••••" required />
-          </label>
+  <!-- REPORTES -->
+  <section id="view-reportes" class="view">
+    <div class="toolbar rep-toolbar">
+      <select id="repRange">
+        <option value="hoy">Hoy</option>
+        <option value="7">Últimos 7 días</option>
+        <option value="30">Últimos 30 días</option>
+        <option value="todo">Todo</option>
+        <option value="" hidden>Personalizado</option>
+      </select>
+      <label class="date-lbl">Desde <input id="repFrom" type="date"></label>
+      <label class="date-lbl">Hasta <input id="repTo" type="date"></label>
+      <button id="expCsv" class="btn">Exportar ventas (CSV)</button>
+    </div>
+    <div id="repCards" class="cards"></div>
+    <h3>Ventas por día</h3>
+    <div id="repChart"></div>
+    <div class="two">
+      <div><h3>Más vendidos</h3><div id="repTop"></div></div>
+      <div><h3>Bajo stock</h3><div id="repLow"></div></div>
+    </div>
+    <h3>Ventas del periodo</h3>
+    <div class="table-wrap"><table id="salesTable"><thead><tr><th>Fecha</th><th>Detalle</th><th>Pago</th><th class="num">Total</th><th></th></tr></thead><tbody></tbody></table></div>
+  </section>
 
-          <button type="submit">Ingresar</button>
-        </form>
-
-        <div class="demo-user">
-          <small>Demo</small>
-          <small>Usuario: root</small>
-          <small>Contraseña: 1234</small>
-        </div>
+  <!-- AJUSTES -->
+  <section id="view-ajustes" class="view">
+    <div class="panel">
+      <h3>Acceso desde otros equipos</h3>
+      <div id="accessInfo"><p>Cargando información del servidor…</p></div>
+    </div>
+    <div class="panel">
+      <h3>Copia de seguridad</h3>
+      <p>Los datos viven en la base SQLite del servidor (carpeta <code>datos/tienda.db</code>) y son los mismos para todos los equipos conectados. Descarga una copia de vez en cuando para no perderlos.</p>
+      <div class="btn-row left">
+        <button id="expJson" class="btn primary">Descargar copia</button>
+        <label class="btn">Restaurar copia<input id="impJson" type="file" accept=".json" hidden></label>
       </div>
     </div>
-
-    <div id="appScreen" class="screen">
-      <aside class="sidebar">
-        <div class="brand">
-          <span aria-label="Logo de Licorería & Estanco">
-            <svg viewBox="0 0 512 512" aria-hidden="true" class="brand-icon">
-              <rect width="512" height="512" rx="110" fill="#f5a000"></rect>
-              <path d="M120 150 L72 96 L72 204 Z" fill="#fff7df"></path>
-              <path d="M392 150 L440 96 L440 204 Z" fill="#fff7df"></path>
-              <rect x="96" y="138" width="320" height="236" rx="118" fill="#fffaf3"></rect>
-              <rect x="150" y="158" width="34" height="196" rx="17" fill="#f5a000"></rect>
-              <rect x="238" y="158" width="34" height="196" rx="17" fill="#f5a000"></rect>
-              <rect x="326" y="158" width="34" height="196" rx="17" fill="#f5a000"></rect>
-            </svg>
-          </span>
-          <h2>Licorería</h2>
-        </div>
-
-        <nav class="nav-menu">
-          <button class="nav-btn active" data-section="dashboard">Dashboard</button>
-          <button class="nav-btn" data-section="products">Productos</button>
-          <button class="nav-btn" data-section="sales">Ventas</button>
-          <button class="nav-btn" data-section="estancos">Estancos</button>
-          <button id="logoutBtn" class="nav-btn danger">Cerrar sesión</button>
-        </nav>
-      </aside>
-
-      <main class="content">
-        <section id="dashboard" class="panel active">
-          <h2>Dashboard</h2>
-
-          <div class="stats">
-            <div class="stat-card">
-              <span>Total ventas</span>
-              <strong id="totalVentas">$0</strong>
-            </div>
-            <div class="stat-card">
-              <span>Productos</span>
-              <strong id="totalProductos">0</strong>
-            </div>
-            <div class="stat-card">
-              <span>Stock bajo</span>
-              <strong id="stockBajo">0</strong>
-            </div>
-            <div class="stat-card">
-              <span>Estancos</span>
-              <strong id="totalEstancos">0</strong>
-            </div>
-          </div>
-        </section>
-
-        <section id="products" class="panel">
-          <h2>Productos / Licores</h2>
-
-          <form id="productForm" class="two-columns">
-            <input type="hidden" id="productId" />
-
-            <label>
-              Nombre
-              <input type="text" id="productName" placeholder="Ej: Vodka Premium" required />
-            </label>
-
-            <label>
-              Categoría
-              <select id="productCategory">
-                <option value="Vinos">Vinos</option>
-                <option value="Whisky">Whisky</option>
-                <option value="Vodka">Vodka</option>
-                <option value="Ron">Ron</option>
-                <option value="Cerveza">Cerveza</option>
-                <option value="Estanco">Estanco</option>
-              </select>
-            </label>
-
-            <label>
-              Precio
-              <input type="number" id="productPrice" min="0" step="0.01" required />
-            </label>
-
-            <label>
-              Stock
-              <input type="number" id="productStock" min="0" required />
-            </label>
-
-            <button type="submit" class="primary-btn full">Guardar producto</button>
-          </form>
-
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Categoría</th>
-                  <th>Precio</th>
-                  <th>Stock</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="productTableBody"></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section id="sales" class="panel">
-          <h2>Ventas</h2>
-
-          <form id="saleForm" class="two-columns">
-            <label>
-              Producto
-              <select id="saleProduct"></select>
-            </label>
-
-            <label>
-              Cantidad
-              <input type="number" id="saleQty" min="1" value="1" required />
-            </label>
-
-            <label>
-              Tipo de venta
-              <select id="saleType">
-                <option value="Al Contado">Al Contado</option>
-                <option value="Cuenta Corriente">Cuenta Corriente</option>
-                <option value="Delivery">Delivery</option>
-              </select>
-            </label>
-
-            <button type="submit" class="primary-btn full">Registrar venta</button>
-          </form>
-
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Subtotal</th>
-                  <th>Tipo</th>
-                </tr>
-              </thead>
-              <tbody id="salesTableBody"></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section id="estancos" class="panel">
-          <h2>Estancos / Sucursales</h2>
-
-          <form id="estancoForm" class="two-columns">
-            <input type="hidden" id="estancoId" />
-
-            <label>
-              Nombre
-              <input type="text" id="estancoName" placeholder="Ej: Estanco Centro" required />
-            </label>
-
-            <label>
-              Dirección
-              <input type="text" id="estancoAddress" placeholder="Av. Principal 123" required />
-            </label>
-
-            <label>
-              Teléfono
-              <input type="text" id="estancoPhone" placeholder="555-001" />
-            </label>
-
-            <label>
-              Encargado
-              <input type="text" id="estancoManager" placeholder="Luis" />
-            </label>
-
-            <button type="submit" class="primary-btn full">Guardar estanco</button>
-          </form>
-
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Dirección</th>
-                  <th>Teléfono</th>
-                  <th>Encargado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="estancoTableBody"></tbody>
-            </table>
-          </div>
-        </section>
-      </main>
+    <div class="panel">
+      <h3>Datos de la tienda</h3>
+      <label>Nombre de la tienda <input id="storeName" placeholder="Mi Tienda de Mecatos"></label>
+      <label>Stock mínimo por defecto <input id="defMin" type="number" min="0"></label>
+      <div class="btn-row left"><button id="saveCfg" class="btn primary">Guardar</button></div>
     </div>
+    <div class="panel">
+      <h3>App y notificaciones</h3>
+      <p class="muted" id="appStatus">Estado de la instalación…</p>
+      <div class="btn-row left">
+        <button id="installBtn2" class="btn primary">Instalar app</button>
+        <button id="notifBtn2" class="btn">Activar notificaciones</button>
+        <button id="notifTest" class="btn ghost">Probar alerta</button>
+      </div>
+    </div>
+    <div class="panel danger">
+      <h3>Zona delicada</h3>
+      <button id="resetAll" class="btn danger">Borrar todos los datos</button>
+    </div>
+  </section>
+</main>
 
-    <script src="script.js"></script>
-  </body>
+<!-- Modal producto -->
+<dialog id="prodDlg">
+  <form method="dialog" id="prodForm">
+    <h3 id="prodTitle">Producto</h3>
+    <label>Nombre <input name="name" required></label>
+    <label>Categoría
+      <span class="select-row">
+        <select name="cat" required></select>
+        <button type="button" id="newCatBtn" class="btn" title="Crear o administrar categorías">Nueva categoría</button>
+      </span>
+    </label>
+    <div class="two">
+      <label>Precio de venta <input name="price" type="number" min="0" required></label>
+      <label>Costo (opcional) <input name="cost" type="number" min="0"></label>
+    </div>
+    <div class="two">
+      <label>Stock <input name="stock" type="number" min="0" value="0"></label>
+      <label>Stock mínimo <input name="min" type="number" min="0"></label>
+    </div>
+    <label>Código de barras (opcional) <input name="code"></label>
+    <label>Ícono o emoji
+      <span class="select-row">
+        <input name="emoji" placeholder="🍫 o elige un ícono" maxlength="40">
+        <button type="button" id="pickProdIcon" class="btn" title="Elegir ícono SVG">Íconos</button>
+      </span>
+    </label>
+    <div class="btn-row">
+      <button type="button" id="delProd" class="btn danger hidden">Eliminar</button>
+      <button type="button" id="cancelProd" class="btn ghost">Cancelar</button>
+      <button type="submit" class="btn primary">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Modal abono -->
+<dialog id="payDlg">
+  <form method="dialog" id="payForm">
+    <h3 id="payTitle">Registrar abono</h3>
+    <label>Valor <input name="amount" type="number" min="1" required></label>
+    <div class="btn-row">
+      <button type="button" id="cancelPay" class="btn ghost">Cancelar</button>
+      <button type="submit" class="btn primary">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Modal categorías -->
+<dialog id="catDlg">
+  <h3>Categorías</h3>
+  <form id="catForm" class="cat-add" autocomplete="off">
+    <input name="name" placeholder="Nueva categoría (ej: Chocolates)" required maxlength="30">
+    <input name="emoji" class="emoji-in" maxlength="40" placeholder="🍫" title="Emoji o icon:nombre">
+    <button type="button" id="pickCatIcon" class="btn" title="Elegir ícono SVG">Íconos</button>
+    <button type="submit" class="btn primary">Agregar</button>
+  </form>
+  <div id="catList2"></div>
+  <div class="btn-row"><button type="button" id="closeCat" class="btn">Listo</button></div>
+</dialog>
+
+<!-- Modal reabastecer -->
+<dialog id="stockDlg">
+  <form method="dialog" id="stockForm">
+    <h3 id="stockTitle">Reabastecer</h3>
+    <p id="stockNow" class="muted"></p>
+    <label>Cantidad (positivo = entrada, negativo = merma/salida)
+      <input name="qty" type="number" step="1" required placeholder="Ej: 24">
+    </label>
+    <label>Motivo o nota (opcional) <input name="note" maxlength="60" placeholder="Ej: compra proveedor La Kennedys"></label>
+    <h4>Movimientos recientes</h4>
+    <div id="stockMoves"></div>
+    <div class="btn-row">
+      <button type="button" id="cancelStock" class="btn ghost">Cancelar</button>
+      <button type="submit" class="btn primary">Registrar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Modal selector de iconos -->
+<dialog id="iconDlg">
+  <h3>Íconos SVG</h3>
+  <p class="muted">Tus propios íconos (por ejemplo de flaticon.com) funcionan: guárdalos como <code>.svg</code> en la carpeta <code>assets/icons</code> y aparecerán aquí.</p>
+  <div id="iconGrid" class="icon-grid"></div>
+  <div class="btn-row"><button type="button" id="closeIcon" class="btn">Cerrar</button></div>
+</dialog>
+
+<!-- Mini-popup de notificaciones (anclado a la campana) -->
+<div id="notifPop" class="notif-pop" role="dialog" aria-label="Notificaciones">
+  <div class="notif-pop-head"><strong>Notificaciones</strong><button type="button" id="notifClear" class="btn sm ghost">Limpiar</button></div>
+  <div id="notifList"></div>
+</div>
+
+<!-- Animación de carga al cambiar de pestaña -->
+<div id="tabLoader" class="tab-loader" aria-hidden="true">
+  <div class="spin"></div>
+  <span>Cargando…</span>
+</div>
+
+<!-- Activación: instalar como app + notificaciones -->
+<dialog id="activateDlg">
+  <h3>Activa tu tienda como app</h3>
+  <p class="muted">Dos pasos opcionales que hacen la vida más fácil en el mostrador.</p>
+  <div class="act-item">
+    <div><b>1 · Instalar la app (PWA)</b><small>Icono en el escritorio o la pantalla de inicio del celular, abre a pantalla completa y funciona aunque se caiga el internet.</small></div>
+    <button type="button" id="installBtn" class="btn primary">Instalar</button>
+  </div>
+  <div class="act-item">
+    <div><b>2 · Notificaciones</b><small>Te avisa por cualquier pestaña cuando un producto se agota, baja del mínimo o un cliente queda debiendo.</small></div>
+    <button type="button" id="notifPermBtn" class="btn">Activar</button>
+  </div>
+  <p id="iosHint" class="muted hidden">En iPhone: toca <b>Compartir</b> y luego <b>“Añadir a pantalla de inicio”</b>.</p>
+  <div class="btn-row"><button type="button" id="skipActivate" class="btn ghost">Ahora no</button></div>
+</dialog>
+
+<div id="toast" class="toast"></div>
+<script src="static-api.js"></script>
+<script src="app.js"></script>
+</body>
 </html>
