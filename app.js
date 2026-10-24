@@ -248,9 +248,9 @@ async function addToCart(id) {
   } catch (e) { toast(e.message); refresh(); }
 }
 async function releaseLine(pid, qty) {
-  const p = prod(pid);
   try { await api('/api/release', { session: SESSION, product: pid, qty }); } catch (e) { toast(e.message); }
-  if (p) p.stock += qty;
+  const p = prod(pid); if (p) p.stock += qty;
+  renderGrid();
 }
 const cartTotal = () => cart.reduce((s, l) => s + (prod(l.pid)?.price || 0) * l.qty, 0);
 function renderCart() {
@@ -606,18 +606,18 @@ $('#q').addEventListener('keydown', e => {
 });
 $('#catFilter').addEventListener('change', renderGrid);
 $('#grid').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) addToCart(c.dataset.id); });
-$('#cartItems').addEventListener('click', e => {
+$('#cartItems').addEventListener('click', async e => {
   const b = e.target.closest('button'); if (!b) return;
   const l = cart.find(x => x.pid === Number(b.dataset.id)); if (!l) return;
   if (b.dataset.a === 'inc') addToCart(l.pid);
-  else if (b.dataset.a === 'dec' && l.qty > 1) { l.qty--; releaseLine(l.pid, 1); renderCart(); renderGrid(); }
-  else { cart = cart.filter(x => x !== l); releaseLine(l.pid, l.qty); renderCart(); renderGrid(); }
+  else if (b.dataset.a === 'dec' && l.qty > 1) { l.qty--; renderCart(); await releaseLine(l.pid, 1); }
+  else { cart = cart.filter(x => x !== l); renderCart(); await releaseLine(l.pid, l.qty); }
 });
 $('#payMethod').addEventListener('change', updateChange);
 $('#cashIn').addEventListener('input', updateChange);
 $('#clearCart').addEventListener('click', async () => {
-  cart = []; renderCart(); renderGrid();
-  try { await api('/api/release', { session: SESSION, all: true }); } catch (e) { toast(e.message); }
+  cart = []; renderCart();
+  try { await api('/api/release', { session: SESSION, all: true }); await refresh(); } catch (e) { toast(e.message); }
 });
 $('#payBtn').addEventListener('click', checkout);
 $('#fiadoName').addEventListener('focus', () => { $('#clientesList').innerHTML = Object.keys(db.clients).map(n => `<option value="${esc(n)}">`).join(''); });
