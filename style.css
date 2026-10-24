@@ -4,27 +4,33 @@
 
 :root {
   --bg: #0f172a;
-  --panel: #111827;
-  --panel-soft: #1f2937;
-  --primary: #d97706;
-  --primary-dark: #b45309;
+  --bg-2: #111827;
+  --panel: rgba(15, 23, 42, 0.82);
+  --panel-soft: rgba(31, 41, 55, 0.88);
+  --primary: #f59e0b;
+  --primary-dark: #d97706;
   --accent: #22c55e;
   --danger: #ef4444;
   --text: #e5e7eb;
   --muted: #9ca3af;
   --light: #f8fafc;
   --dark: #020617;
+  --success: #22c55e;
+  --error: #f87171;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   min-height: 100%;
   font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #111827);
+  background: linear-gradient(135deg, #0f172a, #111827 45%, #1f2937);
   color: var(--text);
 }
 
-button, input, select {
+button,
+input,
+select {
   font: inherit;
 }
 
@@ -44,16 +50,17 @@ button {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at top, #1f2937, #0f172a);
+  background: radial-gradient(circle at top, rgba(245, 158, 11, 0.2), rgba(15, 23, 42, 0.95) 35%, #020617 100%);
+  padding: 24px;
 }
 
 .auth-box {
-  width: min(420px, 90%);
+  width: min(420px, 100%);
   background: rgba(17, 24, 39, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 30px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  padding: 30px 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
 }
 
 .brand-box {
@@ -64,20 +71,21 @@ button {
 }
 
 .brand-mark {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary), #f59e0b);
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), #fbbf24);
   color: #111827;
   font-weight: 900;
+  box-shadow: 0 12px 30px rgba(245, 158, 11, 0.35);
 }
 
 .auth-box h1 {
   margin: 0;
-  font-size: clamp(1.6rem, 2vw, 2.2rem);
+  font-size: clamp(1.5rem, 2vw, 2.2rem);
 }
 
 .auth-box p {
@@ -91,14 +99,46 @@ button {
   font-weight: 600;
 }
 
+.password-field {
+  display: block;
+}
+
+.password-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
 .auth-box input {
   width: 100%;
   margin-top: 8px;
   padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0b1220;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(11, 18, 32, 0.9);
   color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: rgba(245, 158, 11, 0.75);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+}
+
+.password-wrap input {
+  margin-top: 0;
+}
+
+.password-wrap button {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border-radius: 12px;
+  min-width: 76px;
+  min-height: 46px;
+  font-weight: 700;
 }
 
 #loginForm button,
@@ -111,13 +151,37 @@ button {
   font-weight: 700;
   padding: 12px 18px;
   margin-top: 10px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+#loginForm button:hover,
+.primary-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.login-message {
+  min-height: 20px;
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.login-message.error {
+  color: var(--error);
+}
+
+.login-message.success {
+  color: var(--success);
 }
 
 .demo-user {
-  margin-top: 20px;
+  margin-top: 22px;
   display: grid;
   gap: 4px;
   color: var(--muted);
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #appScreen {
@@ -127,7 +191,7 @@ button {
 }
 
 .sidebar {
-  background: #0b1220;
+  background: rgba(11, 18, 32, 0.96);
   padding: 24px 18px;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -146,7 +210,7 @@ button {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary), #f59e0b);
+  background: linear-gradient(135deg, var(--primary), #fbbf24);
   color: #111827;
   font-weight: 900;
 }
@@ -162,14 +226,14 @@ button {
   color: var(--text);
   border: 1px solid transparent;
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 10px;
   font-weight: 700;
 }
 
 .nav-btn.active {
-  background: rgba(217, 119, 6, 0.12);
-  border-color: rgba(217, 119, 6, 0.35);
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
 }
 
 .nav-btn.danger {
@@ -231,7 +295,7 @@ select {
   padding: 12px 14px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0b1220;
+  background: rgba(11, 18, 32, 0.9);
   color: var(--text);
 }
 
@@ -286,5 +350,9 @@ th {
   .stats,
   .two-columns {
     grid-template-columns: 1fr;
+  }
+
+  .auth-box {
+    padding: 22px 18px;
   }
 }
