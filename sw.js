@@ -1,5 +1,5 @@
 // Service worker: guarda la interfaz; los datos SIEMPRE vienen del servidor SQLite (/api nunca se cachea)
-const CACHE = 'mecatos-v8';
+const CACHE = 'mecatos-v9';
 const FILES = ['./', 'index.html', 'styles.css', 'static-api.js', 'app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {

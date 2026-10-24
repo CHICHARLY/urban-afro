@@ -68,7 +68,7 @@ function connectEvents() {
     addEventListener('storage', e => { if (e.key === window.StaticAPI.key) scheduleRefresh(); });
     return;
   }
-  const es = new EventSource('/api/events');
+  const es = new EventSource('api/events');
   es.addEventListener('change', scheduleRefresh);
   es.onerror = () => { /* el navegador reconecta solo */ };
 }
@@ -728,6 +728,5 @@ detectMode().then(refresh).then(async () => {
 });
 /* Latido: mantiene vivas mis reservas mientras la caja esté abierta; si la cierras, el servidor devuelve el stock a los ~15 min */
 setInterval(() => { if (cart.length) api('/api/reserve-touch', { session: SESSION }).catch(() => {}); }, 180000);
-connectEvents();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();
